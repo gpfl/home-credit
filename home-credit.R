@@ -1,12 +1,19 @@
-#####
-#04/10/18 - Gustavo
+####### LIBRARIES #######
 library(data.table)
 library(tidyverse)
 library(caret)
 
+
+#######  IMPORTING CSV #####
 apptest <- fread("application_test.csv")
 apptrain<- fread("application_train.csv")
-View(apptrain)
+
+####### COLUMNS DESCRIPTION
+
+description <- fread("HomeCredit_columns_description.csv")
+
+View(description)
+
 summary(apptrain)
 str(apptrain)
 
