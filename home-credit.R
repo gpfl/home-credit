@@ -1,6 +1,8 @@
 #####
 #04/10/18 - Gustavo
 library(data.table)
+library(tidyverse)
+library(caret)
 
 apptest <- fread("application_test.csv")
 apptrain<- fread("application_train.csv")
