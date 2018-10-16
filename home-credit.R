@@ -8,9 +8,15 @@ library(caret)
 apptest <- fread("application_test.csv")
 apptrain<- fread("application_train.csv")
 
-####### COLUMNS DESCRIPTION
-
+####### COLUMNS DESCRIPTION #######
 description <- fread("HomeCredit_columns_description.csv")
+
+####### DAYS_EMPLYED CORRECTION #######
+apptrain[, DAYS_EMPLOYED := ifelse(DAYS_EMPLOYED==365243, NA, DAYS_EMPLOYED)]
+
+
+####### NA IDENTIFICATION #######
+apptrain[, lapply(.SD, function(x) sum(is.na(x)))]
 
 View(description)
 
