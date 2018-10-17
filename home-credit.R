@@ -32,12 +32,26 @@ apptrain_num[, -cols_del, with=F]
 correlation <- cor(apptrain_num)
 corrplot.mixed(correlation, tl.cex=1)
 
-View(description)
+####### DATA TRANSFORMATIONS #######
 
-summary(apptrain)
-str(apptrain)
+# Box-Cox test
+preProcValues <- preProcess(apptrain, method = "BoxCox")
+preProcValues
 
-# Contagem de nulos por coluna
-colSums(is.na(apptrain))
+# Box-Cox Transformations 
+BoxCoxValues <- apply(apptrain_num, 2, function(x) BoxCoxTrans(x, na.rm = TRUE))
+x = list()
 
-#####
+for (i in 1:ncol(apptrain_num)){
+     lambda <- BoxCoxValues[[i]][[1]]
+     x[[i]] <- lambda
+}
+# Organizing transformed lambda into a data.table
+lambda = do.call(rbind, x)
+lambda_df <- data.table("Column" = colnames(apptrain_num), "Lambda" = lambda)
+# Lambda DF
+na.omit(lambda_df)
+
+# Subsetting columns transformed by Box-Cox
+apptrain2[, na.omit(lambda_df)$Column, with=F]
+# Tava tentando plotar essas variáveis em histogramas, como no kernel...
